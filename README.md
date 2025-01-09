@@ -1,5 +1,25 @@
 # 太空RTS遊戲
 
+## 專案注意項目
+- 盡量在自己的分支進行變更
+- 需要pull 就盡量pull
+- 有任何程式上的問題一律建議瑞爾
+- Git/Github 有問題找帝江
+
+## Git 常用指令(用github desktop的可以理解一下)
+- git branch
+  - 確認目前分支
+- git checkout branch "branch_name"
+  - 切換所在分支
+- git add .
+  - 所有檔案加入索引
+- git status
+  - 查詢現在這個目錄的狀態
+- git push
+  - 將目前分支推送至git hub 
+- git pull origin branch_name
+  - 將目標分支的檔案merge進目前的branch
+
 ## 架構
 
 1. 開始頁面
