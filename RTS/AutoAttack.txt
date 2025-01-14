@@ -1,0 +1,30 @@
+title 船艦自動攻擊
+ 
+participant ShipA
+participant Bullet
+participant Target
+
+activate ShipA
+activate Target
+//所有的船都會記錄 包含玩家、敵人、友方及中立單位
+alt 敵方進入到攻擊範圍
+  
+  ShipA->Bullet: 生成子彈
+  
+  deactivate ShipA
+  
+  activate Bullet
+  loop Bullet 一直移動向Target的位置
+    //子彈跑到Target位置附近就足夠 10是可以修改的
+    alt abs(Bullet.position-Target.position) <10)
+      note over Target:扣除自身血量
+      note over Bullet:摧毀自身
+    else 超過一定秒數
+      note over Bullet:摧毀自身
+    end
+  end
+  deactivate Target
+  deactivate Bullet
+end
+
+

@@ -1,0 +1,17 @@
+title 船艦自動追蹤最近單位
+
+participant ShipA
+
+activate ShipA
+
+alt target 不在列表中
+  loop 遍歷所有單位
+    alt 單位屬於敵方且距離更短
+      note over ShipA: 更新目標為該單位
+    end
+  end
+else
+  note over ShipA: 清空目標變數
+end
+
+deactivate ShipA

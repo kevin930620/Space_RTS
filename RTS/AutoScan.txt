@@ -1,0 +1,15 @@
+title 船艦自動偵測
+
+participant ShipA
+participant ShipN
+
+activate ShipA
+
+//所有的船都會記錄 包含玩家、敵人、友方及中立單位
+alt 掃描周圍是否有單位進入到偵測半徑內
+
+  ShipN->ShipA:將其紀錄到清單中
+  
+end
+
+deactivate ShipA
