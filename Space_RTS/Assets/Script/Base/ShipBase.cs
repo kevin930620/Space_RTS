@@ -4,16 +4,18 @@ public abstract class ShipBase : Unit
 {
 
 	float SPD;
-	float TotalAtkCD;
-	float AtkCd = 0f;
+	float atkRange;
+	float totalAtkCD;
+	float atkCd = 0f;
 
-	Faction BelongFaction;
-	ShipBase[] NearByList;
-	ShipBase Target;
+	Faction belongFaction;
+	ShipBase[] nearByList;
+	ShipBase target;
 
-	protected ShipBase(int max_Hp, int def, float scanRange, string name, float spd,float totalAtkCd) : base(max_Hp,def,scanRange,name) {
+	protected ShipBase(float spd, float AtkRange, float totalAtkCd,int max_Hp, int def, float scanRange, string name) : base(max_Hp,def,scanRange,name) {
 		this.SPD = spd;
-		this.TotalAtkCD = totalAtkCd;
+		this.atkRange = AtkRange;
+		this.totalAtkCD = totalAtkCd;
 	}
 
 	// 方法
@@ -21,7 +23,7 @@ public abstract class ShipBase : Unit
 	{
 		Debug.Log(position);
 	} // 移動至目標位置
-	protected virtual void Attack(ShipBase target) { 
+	protected virtual void Attack(Unit target) { 
 		
 	}
 	
