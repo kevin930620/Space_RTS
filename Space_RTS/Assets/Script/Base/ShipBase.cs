@@ -12,9 +12,9 @@ public abstract class ShipBase : Unit
 	ShipBase[] nearByList;
 	ShipBase target;
 
-	protected ShipBase(float spd, float AtkRange, float totalAtkCd,int max_Hp, int def, float scanRange, string name) : base(max_Hp,def,scanRange,name) {
+	protected ShipBase(float spd, float atkRange, float totalAtkCd,int max_Hp, int def, float scanRange, string unitName) : base(max_Hp,def,scanRange, unitName) {
 		this.SPD = spd;
-		this.atkRange = AtkRange;
+		this.atkRange = atkRange;
 		this.totalAtkCD = totalAtkCd;
 	}
 

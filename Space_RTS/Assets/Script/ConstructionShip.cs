@@ -12,7 +12,8 @@ public class ConstructionShip : ShipBase
 
 	GameObject isHeld = null;
 
-	public ConstructionShip(float totalMiningCD, Vector3 targetPosition, int max_Hp, int def, float scanRange, string name, float spd, float totalAtkCd) : base(max_Hp,def,scanRange,name,spd,totalAtkCd) {
+	public ConstructionShip(float totalMiningCD, Vector3 targetPosition, float spd, float atkRange, float totalAtkCd, int max_Hp, int def, float scanRange, string unitName) :
+		base(spd, atkRange, totalAtkCd, max_Hp,def,scanRange, unitName) {
 		this.totalMiningCD = totalMiningCD;
 		if (targetPosition != null) { Move(targetPosition); }
 	}
