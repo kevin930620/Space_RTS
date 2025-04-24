@@ -38,5 +38,6 @@ public class ConstructionShip : ShipBase
 	protected override void Update()
 	{
 		base.Update();
+
 	}
 }
