@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
-
+using UnityEngine.EventSystems;
 
 public class SelectionBox : MonoBehaviour
 {
+	bool clickStartOnUI = false;
 	[SerializeField]
 	float cameraMoveSpeed = 10f;
 	[SerializeField]
@@ -23,6 +24,8 @@ public class SelectionBox : MonoBehaviour
 	GameObject singleUnitUI;
 	[SerializeField]
 	GameObject multiplyUnitUI;
+	[SerializeField]
+	GameObject UnitActionUI;
 
 	private bool isSelecting = false;
 	private Vector2 startPos, endPos, targetPos;
@@ -35,8 +38,13 @@ public class SelectionBox : MonoBehaviour
 	void Update()
 	{
 		UnitSelect();
+		if(selectedUnits.Count == 1)
+		{
+			Unit a = selectedUnits[0].GetComponent<Unit>();
+			singleUnitUI.GetComponent<SingleUnitInfo>().SetUI(a.GetName(), a.GetMaxHp(), a.GetHp());
+			
+		}
 
-		
 
 		moveDirection = Vector2.zero;
 		// 檢測鼠標是否在螢幕邊緣
@@ -95,13 +103,16 @@ public class SelectionBox : MonoBehaviour
 	}
 	void UnitSelect()
 	{
-		// 開始選取
 		if (Input.GetMouseButtonDown(0))
 		{
+			clickStartOnUI = EventSystem.current.IsPointerOverGameObject();
+			if (clickStartOnUI)
+				return;
 			UnSelectUnits();
 			startPos = Input.mousePosition;
 			selectionBoxUI.gameObject.SetActive(true);
 			isSelecting = true;
+
 		}
 
 		// 更新選取範圍
@@ -114,12 +125,23 @@ public class SelectionBox : MonoBehaviour
 		// 結束選取
 		if (Input.GetMouseButtonUp(0))
 		{
+			if (clickStartOnUI)
+			{
+				// 清除旗標後離開，不進行選取
+				clickStartOnUI = false;
+				return;
+			}
 			isSelecting = false;
 			selectionBoxUI.gameObject.SetActive(false);
 			SelectUnits();
+			UnitActionUI.GetComponent<UnitUIAction>().ActionClear();
 			if (selectedUnits.Count() == 1)
 			{
 				singleUnitUI.SetActive(true);
+				Unit a = selectedUnits[0].GetComponent<Unit>();
+				singleUnitUI.GetComponent<SingleUnitInfo>().SetUI(a.GetName(), a.GetMaxHp(), a.GetHp());
+
+				if(a is ConstructionShip) UnitActionUI.GetComponent<UnitUIAction>().SetActionMenu(1);
 				multiplyUnitUI.SetActive(false);
 			}
 			else if (selectedUnits.Count() > 1)
@@ -132,6 +154,7 @@ public class SelectionBox : MonoBehaviour
 				singleUnitUI.SetActive(false);
 				multiplyUnitUI.SetActive(false);
 			}
+			clickStartOnUI = false;
 		}
 		if (Input.GetMouseButtonDown(1))
 		{

@@ -19,8 +19,9 @@ public class ShipInfo:InfoBase
 
 public abstract class ShipBase : Unit
 {
-	
 
+	[SerializeField]
+	public ShipInfo shipInfo;
 	float SPD;
 	int atkValue;
 	float atkRange;
@@ -48,22 +49,25 @@ public abstract class ShipBase : Unit
 
 	protected ShipBase(ShipBase shipInfo) : base(shipInfo)
 	{
+		
 		SPD = shipInfo.SPD;
 		totalAtkCD = shipInfo.totalAtkCD;
 		atkValue = shipInfo.atkValue;
 		atkCd = 0f;
 	}
-	protected virtual void InitShip(ShipInfo shipInfo)
+	protected virtual void InitShip()
 	{
+		
 		SPD = shipInfo.SPD;
 		GetComponent<NavMeshAgent>().speed = SPD;
 		totalAtkCD = shipInfo.TotalAtkCD;
 		atkValue = shipInfo.AtkValue;
 		base.Init(shipInfo);
-		
+		if (HP == 0) Destroy(gameObject);
 	}
 	protected virtual void Awake()
 	{
+		InitShip();
 		agent = GetComponent<NavMeshAgent>();
 		agent.updateRotation = false;
 		agent.updateUpAxis = false;
@@ -191,6 +195,7 @@ public abstract class ShipBase : Unit
 	}
 	public virtual void GetHit(int bullet) {
 		TakeDamage(bullet);
+		HpBar.GetComponent<UnitHpBar>().SetHPBar(HP, MAX_HP);
 	}
 
 	public void Select()

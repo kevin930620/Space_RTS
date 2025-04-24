@@ -15,7 +15,6 @@ public class ConstructionShip : ShipBase
 	Vector3 targetPosition;
 	Vector2 basePosition;
 
-	public LayerMask ground;
 
 	GameObject isHeld = null;
 
@@ -28,61 +27,16 @@ public class ConstructionShip : ShipBase
 	//	this.totalMiningCD = totalMiningCD;
 
 	//}
-	private void Awake()
+	protected override void Awake()
 	{
-		
+		base.Awake();
 	}
 	private void Start()
 	{
 
 	}
-	public override void Move(Vector3 position)
-	{
-		if (curretCoroutine != null) {
-			StopCoroutine(curretCoroutine);
-			curretCoroutine = null;
-		}
-		base.Move(position);
-	}
-	public void Mining(GameObject minable) {
-		if (curretCoroutine != null)
-		{
-			StopCoroutine(curretCoroutine);
-			curretCoroutine = null;
-		}
-		if (isHeld == minable)
-		{
-
-		}
-		else {
-			StartCoroutine(Mine(minable));
-		}
-		
-	}
-	private IEnumerator Mine(GameObject minable) {
-
-		yield return new WaitForSeconds(totalMiningCD);
-
-		//isHeld = gameObject;
-	}
 	protected override void Update()
 	{
 		base.Update();
 	}
-	private void FixedUpdate()
-	{
-		//AutoScan();	
-	}
-	protected override void OnTriggerEnter2D(Collider2D collision)
-	{
-		base.OnTriggerEnter2D(collision);
-	}
-	protected override void OnTriggerExit2D(Collider2D collision)
-	{
-		base.OnTriggerExit2D(collision);
-	}
-	//protected override void AutoScan()
-	//{
-	//	//base.AutoScan();
-	//}
 }

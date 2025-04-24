@@ -43,9 +43,10 @@ public abstract class Unit : MonoBehaviour
 		unitName = infoBase.UnitName;
 		GetComponent<CircleCollider2D>().radius = scanRange;
 	}
-	protected int GetHp() { return HP; }
+	public int GetHp() { return HP; }
+	public int GetMaxHp() { return MAX_HP; }
 	protected int GetDef() { return DEF; }
-	protected string GetName() { return unitName; }
+	public string GetName() { return unitName; }
 
 	protected virtual void TakeDamage( int damage) {
 		HP -= damage;

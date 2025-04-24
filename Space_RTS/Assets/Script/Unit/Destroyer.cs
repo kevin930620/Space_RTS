@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class Destroyer : ShipBase
 {
-	[SerializeField]
-	ShipInfo shipInfo;
+	
 
 	public Destroyer(ShipBase shipInfo) : base(shipInfo)
 	{
@@ -15,7 +14,6 @@ public class Destroyer : ShipBase
 	//}
 	protected override void Awake()
 	{
-		InitShip(shipInfo);
 		base.Awake();
 	}
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
