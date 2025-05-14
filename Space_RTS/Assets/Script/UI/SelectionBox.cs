@@ -40,9 +40,16 @@ public class SelectionBox : MonoBehaviour
 		UnitSelect();
 		if(selectedUnits.Count == 1)
 		{
-			Unit a = selectedUnits[0].GetComponent<Unit>();
-			singleUnitUI.GetComponent<SingleUnitInfo>().SetUI(a.GetName(), a.GetMaxHp(), a.GetHp());
-			
+			if(selectedUnits[0] == null)
+			{
+				selectedUnits.Clear();
+			}
+			else
+			{
+				Unit a = selectedUnits[0].GetComponent<Unit>();
+				singleUnitUI.GetComponent<SingleUnitInfo>().SetUI(a.GetName(), a.GetMaxHp(), a.GetHp());
+			}
+
 		}
 
 

@@ -16,6 +16,13 @@ public class ShipInfo:InfoBase
 	public float TotalAtkCD;
 
 }
+enum ShipState
+{
+	Idle,
+	Chase,
+	Attack
+}
+
 
 public abstract class ShipBase : Unit
 {
@@ -37,7 +44,9 @@ public abstract class ShipBase : Unit
 	NavMeshAgent agent;
 	//Faction belongFaction;
 	public  List<GameObject> nearByList = new List<GameObject>();
-	
+
+	ShipState state = ShipState.Idle;
+
 	Unit target;
 	
 	[SerializeField]
@@ -85,19 +94,81 @@ public abstract class ShipBase : Unit
 		HpBar.GetComponent<UnitHpBar>().SetHPBar(HP, MAX_HP);
 	}
 	protected virtual void Update() {
-		if (atkCd != 0) atkCd -= Time.deltaTime;
-		if (target == null) AutoAttack();
+		if (IsAI)
+		{
+			switch (state)
+			{
+				case ShipState.Idle:
+					if (nearByList.Count != 0) {
+						target = nearByList[0].GetComponent<Unit>();
+						state = ShipState.Chase;
+					}
+					else
+					{
+						//
+					}
+					break;
+				case ShipState.Chase:
+					if (nearByList.Count == 0)
+					{
+						target = null;
+						Move(transform.position);
+						state = ShipState.Idle;
+						break;
+					}
+					else if (target != nearByList[0].GetComponent<Unit>())
+					{
+						target = nearByList[0].GetComponent<Unit>();
+						Move(target.transform.position);
+					}
+					else if (Vector2.Distance(transform.position, target.transform.position) > atkRange)
+					{
+						Move(target.transform.position);
+					}
+					else
+					{
+						Move(transform.position);
+						state = ShipState.Attack;
+					}
+					break;
+				case ShipState.Attack:
+					if(target.GetHp()<=0 || target == null)
+					{
+						state = ShipState.Idle;
+						break;
+					}
+					AutoAttack();
+					if(Vector2.Distance(transform.position, target.transform.position) > atkRange)
+					{
+						state = ShipState.Chase;
+					}
+					break;
+				default:
+					Debug.Log(state);
+					break;			
+			}
+			
+
+
+		}
 		else
 		{
-			
-			if (Vector2.Distance(target.transform.position, transform.position) > atkRange) Move(target.transform.position);
+			if (target == null) AutoAttack();
 			else
 			{
-				
-				Move(transform.position);
-				Attack(target);
+
+				if (Vector2.Distance(target.transform.position, transform.position) > atkRange) Move(target.transform.position);
+				else
+				{
+
+					Move(transform.position);
+					Attack(target);
+				}
 			}
 		}
+		if (atkCd != 0) atkCd -= Time.deltaTime;
+
+		
 
 		if (agent.velocity.sqrMagnitude > 0.1f) // 有移動時才旋轉
 		{
