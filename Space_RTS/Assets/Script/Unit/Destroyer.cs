@@ -27,4 +27,14 @@ public class Destroyer : ShipBase
 	{
 		base.Update();
 	}
+	public override ObjectSaveData GetData()
+	{
+		ObjectSaveData data = base.GetData();
+		data.type = "Destroyer";
+		return data;
+	}
+	public override void ApplyData(ObjectSaveData data)
+	{
+		base.ApplyData(data);
+	}
 }

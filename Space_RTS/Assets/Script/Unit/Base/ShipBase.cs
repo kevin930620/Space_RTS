@@ -16,6 +16,18 @@ public class ShipInfo:InfoBase
 	public float TotalAtkCD;
 
 }
+[System.Serializable]
+public class ObjectSaveData
+{
+	public string type; // "B" or "C"
+	public float x, y, z;
+	public int HP;
+}
+[System.Serializable]
+public class SaveDataWrapper
+{
+	public List<ObjectSaveData> objects = new List<ObjectSaveData>();
+}
 enum ShipState
 {
 	Idle,
@@ -306,5 +318,21 @@ public abstract class ShipBase : Unit
 	{
 		nearByList = nearByList.OrderBy(obj =>
 			(transform.position - obj.transform.position).sqrMagnitude).ToList();
+	}
+	public virtual ObjectSaveData GetData()
+	{
+		ObjectSaveData data = new ObjectSaveData();
+		data.x = transform.position.x;
+		data.y = transform.position.y;
+		data.z = transform.position.z;
+		data.HP = HP;
+
+
+		return data;
+	}
+	public virtual void ApplyData(ObjectSaveData data)
+	{
+		transform.position = new Vector3(data.x, data.y, data.z);
+		GetComponent<ShipBase>().HP = data.HP;
 	}
 }
